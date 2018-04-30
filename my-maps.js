@@ -15,11 +15,14 @@ function initMap() {
     console.log("marker placed at " + e.latLng);
   });
 
-var onClickHandler = function() {
+var onClickRoutesHandler = function() {
   calculateAndDisplayRoute(directionsService, directionsDisplay);
 }
-
-  document.getElementById('getRoute').addEventListener('click', onClickHandler)
+var onClickLinesHandler = function() {
+  generatePolyLines(map);
+}
+  document.getElementById('getRoute').addEventListener('click', onClickRoutesHandler);
+  document.getElementById('getPolylines').addEventListener('click', onClickLinesHandler);
 }
 
 function placeMarkerAndPanTo(latLng, map) {
@@ -64,3 +67,24 @@ if(numberOfMarkers>2){
        }
      });
    }
+
+function generatePolyLines(map){
+  console.log("polulines clicked");
+
+  var numberOfMarkers = markers.length;
+  var myOrigin = markers[0];
+  var myDestination = markers[numberOfMarkers - 1 ];
+  var flightPlanCoordinates = [
+        myOrigin,
+        myDestination
+       ];
+       var flightPath = new google.maps.Polyline({
+         path: flightPlanCoordinates,
+         geodesic: true,
+         strokeColor: '#FF0000',
+         strokeOpacity: 1.0,
+         strokeWeight: 2
+       });
+
+       flightPath.setMap(map);
+}

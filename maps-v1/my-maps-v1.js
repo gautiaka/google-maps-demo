@@ -1,30 +1,32 @@
-var markers = []; //Array of locations
+var positionMarkers = []; //Array of locations
 var map;
 var directionsService;
 var directionsDisplay;
 var geocoder;
 var directionResponse;
+var markers = [];
 
 function initMap() {
   geocoder = new google.maps.Geocoder();
   var map = new google.maps.Map(document.getElementById('map'), {
-  zoom: 10,
-  center: {
-    lat: 18.5204,
-    lng: 73.8567
-  }
-});
+    zoom: 10,
+    center: {
+      lat: 18.5204,
+      lng: 73.8567
+    }
+  });
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer({
-           draggable: true,
-           map: map
-         });
+    draggable: true,
+    map: map
+  });
 
-         directionsDisplay.addListener('directions_changed', function(e) {
+  directionsDisplay.addListener('directions_changed', function(e) {
 
-   directionsDisplay.getDirections();
-   directionResponse = directionsDisplay.getDirections();
- });
+    directionsDisplay.getDirections();
+     clearMarkers();
+    directionResponse = directionsDisplay.getDirections();
+  });
 
   directionsDisplay.setMap(map);
   map.addListener('click', function(e) {
@@ -46,25 +48,26 @@ function placeMarkerAndPanTo(latLng, map) {
     position: latLng,
     map: map
   });
-  markers.push(latLng);
-//  map.panTo(latLng);
+  positionMarkers.push(latLng);
+  markers.push(marker);
+  //  map.panTo(latLng);
 }
 
 
 function calculateAndDisplayRoute(myOrigin, myDestination, map, directionsService, directionsDisplay) {
   var waypts = [];
-  var numberOfMarkers = markers.length;
+  var numberOfMarkers = positionMarkers.length;
   var myOrigin = myOrigin;
   var myDestination = myDestination;
 
 
-    for (var i = 0; i < markers.length; i++) {
+  for (var i = 0; i < positionMarkers.length; i++) {
 
-      waypts.push({
-        location: markers[i],
-        stopover: true
-      });
-    }
+    waypts.push({
+      location: positionMarkers[i],
+      stopover: true
+    });
+  }
 
 
   directionsService.route({
@@ -86,9 +89,9 @@ function calculateAndDisplayRoute(myOrigin, myDestination, map, directionsServic
 
 function generatePolyLines(map, response) {
 
-  var numberOfMarkers = markers.length;
-  var myOrigin = markers[0];
-  var myDestination = markers[numberOfMarkers - 1];
+  var numberOfMarkers = positionMarkers.length;
+  var myOrigin = positionMarkers[0];
+  var myDestination = positionMarkers[numberOfMarkers - 1];
   var lineSymbol = {
     path: google.maps.SymbolPath.CIRCLE,
     scale: 8,
@@ -140,30 +143,45 @@ function animateCircle(line) {
   }, 100);
 }
 
-function setOriginDest(map, directionsService, directionsDisplay){
+function setOriginDest(map, directionsService, directionsDisplay) {
   var originAddress = document.getElementById('routeOrigin').value;
 
-     geocoder.geocode( { 'address': originAddress}, function(results, status) {
-       if (status == 'OK') {
+  geocoder.geocode({
+    'address': originAddress
+  }, function(results, status) {
+    if (status == 'OK') {
 
-       myOrigin = results[0].geometry.location;
-       var destAddress = document.getElementById('routeDestination').value;
+      myOrigin = results[0].geometry.location;
+      var destAddress = document.getElementById('routeDestination').value;
 
-          geocoder.geocode( { 'address': destAddress}, function(results, status) {
-            if (status == 'OK') {
+      geocoder.geocode({
+        'address': destAddress
+      }, function(results, status) {
+        if (status == 'OK') {
           myDestination = results[0].geometry.location
           calculateAndDisplayRoute(myOrigin, myDestination, map, directionsService, directionsDisplay);
 
-            } else {
-              alert('Geocode was not successful for the following reason: ' + status);
-            }
-          });
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+      });
 
-       } else {
-         alert('Geocode was not successful for the following reason: ' + status);
-       }
-     });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
 
 
 
 }
+// Sets the map on all markers in the array.
+      function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+
+      // Removes the markers from the map, but keeps them in the array.
+      function clearMarkers() {
+        setMapOnAll(null);
+      }

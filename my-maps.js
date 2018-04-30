@@ -6,8 +6,8 @@ function initMap() {
   var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 7,
-          center: {lat: 41.85, lng: -87.65}
+          zoom: 12,
+          center: {lat: 18.5204, lng: 73.8567}
         });
         directionsDisplay.setMap(map);
   map.addListener('click', function(e) {
@@ -38,9 +38,9 @@ var waypts = [];
 var numberOfMarkers = markers.length;
 var myOrigin = markers[0];
 var myDestination = markers[numberOfMarkers - 1 ];
-console.log(myOrigin);
-console.log(myDestination);
-console.log(numberOfMarkers);
+// console.log(myOrigin);
+// console.log(myDestination);
+// console.log(numberOfMarkers);
 if(numberOfMarkers>2){
   for (var i = 0; i < markers.length; i++) {
 

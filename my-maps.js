@@ -74,17 +74,38 @@ function generatePolyLines(map){
   var numberOfMarkers = markers.length;
   var myOrigin = markers[0];
   var myDestination = markers[numberOfMarkers - 1 ];
+  var lineSymbol = {
+         path: google.maps.SymbolPath.CIRCLE,
+         scale: 8,
+         strokeColor: '#393'
+       };
   var flightPlanCoordinates = [
         myOrigin,
         myDestination
        ];
-       var flightPath = new google.maps.Polyline({
+       var line = new google.maps.Polyline({
          path: flightPlanCoordinates,
          geodesic: true,
+         icons: [{
+            icon: lineSymbol,
+            offset: '100%'
+          }],
          strokeColor: '#FF0000',
          strokeOpacity: 1.0,
          strokeWeight: 2
        });
 
-       flightPath.setMap(map);
+       line.setMap(map);
+        animateCircle(line);
+
 }
+function animateCircle(line) {
+          var count = 0;
+          window.setInterval(function() {
+            count = (count + 1) % 200;
+
+            var icons = line.get('icons');
+            icons[0].offset = (count / 2) + '%';
+            line.set('icons', icons);
+        }, 20);
+      }

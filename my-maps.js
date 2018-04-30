@@ -16,7 +16,7 @@ function initMap() {
   });
 
 var onClickRoutesHandler = function() {
-  calculateAndDisplayRoute(directionsService, directionsDisplay);
+  calculateAndDisplayRoute(map,directionsService, directionsDisplay);
 }
 var onClickLinesHandler = function() {
   generatePolyLines(map);
@@ -36,7 +36,7 @@ function placeMarkerAndPanTo(latLng, map) {
 }
 
 
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+function calculateAndDisplayRoute(map,directionsService, directionsDisplay) {
 var waypts = [];
 var numberOfMarkers = markers.length;
 var myOrigin = markers[0];
@@ -62,20 +62,23 @@ if(numberOfMarkers>2){
      }, function(response, status) {
        if (status === 'OK') {
          directionsDisplay.setDirections(response);
+
+         generatePolyLines(map,response);
        } else {
          window.alert('Directions request failed due to ' + status);
        }
      });
    }
 
-function generatePolyLines(map){
+function generatePolyLines(map,response){
   console.log("polulines clicked");
-
+  console.info(map);
+  console.info(response);
   var numberOfMarkers = markers.length;
   var myOrigin = markers[0];
   var myDestination = markers[numberOfMarkers - 1 ];
   var lineSymbol = {
-         path: google.maps.SymbolPath.CIRCLE,
+         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
          scale: 8,
          strokeColor: '#393'
        };
@@ -84,7 +87,7 @@ function generatePolyLines(map){
         myDestination
        ];
        var line = new google.maps.Polyline({
-         path: flightPlanCoordinates,
+         path: [],
          geodesic: true,
          icons: [{
             icon: lineSymbol,
@@ -95,7 +98,27 @@ function generatePolyLines(map){
          strokeWeight: 2
        });
 
+       var bounds = new google.maps.LatLngBounds();
+
+
+       var legs = response.routes[0].legs;
+       for (i=0;i<legs.length;i++) {
+         var steps = legs[i].steps;
+         for (j=0;j<steps.length;j++) {
+           var nextSegment = steps[j].path;
+           for (k=0;k<nextSegment.length;k++) {
+             line.getPath().push(nextSegment[k]);
+             bounds.extend(nextSegment[k]);
+           }
+         }
+       }
+
+
+
+
        line.setMap(map);
+       map.fitBounds(bounds);
+
         animateCircle(line);
 
 }
@@ -107,5 +130,5 @@ function animateCircle(line) {
             var icons = line.get('icons');
             icons[0].offset = (count / 2) + '%';
             line.set('icons', icons);
-        }, 20);
+        }, 100);
       }

@@ -18,7 +18,6 @@ function initMap() {
   directionsDisplay.setMap(map);
   map.addListener('click', function(e) {
     placeMarkerAndPanTo(e.latLng, map);
-    console.log("marker placed at " + e.latLng);
   });
 
   var onClickRoutesHandler = function() {
@@ -37,7 +36,6 @@ function placeMarkerAndPanTo(latLng, map) {
     map: map
   });
   markers.push(latLng);
-  console.info(markers);
   map.panTo(latLng);
 }
 
@@ -57,8 +55,7 @@ function calculateAndDisplayRoute(myOrigin, myDestination, map, directionsServic
       });
     }
 
-  console.log("waypoints are: ");
-  console.info(waypts)
+
   directionsService.route({
     origin: myOrigin,
     destination: myDestination,

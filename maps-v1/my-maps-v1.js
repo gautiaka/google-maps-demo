@@ -2,19 +2,30 @@ var markers = []; //Array of locations
 var map;
 var directionsService;
 var directionsDisplay;
- var geocoder;
+var geocoder;
+var directionResponse;
+
 function initMap() {
   geocoder = new google.maps.Geocoder();
-
-  var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer;
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: {
-      lat: 18.5204,
-      lng: 73.8567
-    }
-  });
+  zoom: 10,
+  center: {
+    lat: 18.5204,
+    lng: 73.8567
+  }
+});
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer({
+           draggable: true,
+           map: map
+         });
+
+         directionsDisplay.addListener('directions_changed', function(e) {
+
+   directionsDisplay.getDirections();
+   directionResponse = directionsDisplay.getDirections();
+ });
+
   directionsDisplay.setMap(map);
   map.addListener('click', function(e) {
     placeMarkerAndPanTo(e.latLng, map);
@@ -24,7 +35,7 @@ function initMap() {
     setOriginDest(map, directionsService, directionsDisplay);
   }
   var onClickLinesHandler = function() {
-    generatePolyLines(map);
+    generatePolyLines(map, directionResponse);
   }
   document.getElementById('getRoute').addEventListener('click', onClickRoutesHandler);
   document.getElementById('getPolylines').addEventListener('click', onClickLinesHandler);
@@ -36,7 +47,7 @@ function placeMarkerAndPanTo(latLng, map) {
     map: map
   });
   markers.push(latLng);
-  map.panTo(latLng);
+//  map.panTo(latLng);
 }
 
 
@@ -65,8 +76,8 @@ function calculateAndDisplayRoute(myOrigin, myDestination, map, directionsServic
   }, function(response, status) {
     if (status === 'OK') {
       directionsDisplay.setDirections(response);
-
-      generatePolyLines(map, response);
+      document.getElementById("getRoute").disabled = true;
+      directionResponse = response;
     } else {
       window.alert('Directions request failed due to ' + status);
     }
@@ -110,9 +121,6 @@ function generatePolyLines(map, response) {
       }
     }
   }
-
-
-
 
   line.setMap(map);
   map.fitBounds(bounds);

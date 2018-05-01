@@ -142,7 +142,7 @@ google.maps.event.addListener(line, 'click', function(evt) {
 function animateCircle(line) {
   var count = 0;
   window.setInterval(function() {
-    count = (count + 1) % 20;
+    count = (count + 1) % 200;
 
     var icons = line.get('icons');
     icons[0].offset = (count / 2) + '%';

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Simple Map</title>
+  <title>Google maps demo project</title>
   <meta name="viewport" content="initial-scale=1.0">
   <meta charset="utf-8">
    <link rel="stylesheet" type="text/css" href="./css/mymaps.css">
@@ -12,13 +12,19 @@
 <body>
   <div class="container">
   <h3>Please enter origin and destination</h3>
-   <label>Origin</label><input type="text" id="routeOrigin">
-   <label>Destination</label><input type="text" id="routeDestination">
+  <div>You can put markers to define waypoints in between and then click the <strong>'Find best route' </strong>button <br>
+    to get the best route from origin to the destination via these waypoints. You can also click to hold and then drag to alter the route.<br>
+    Once you're done, press <strong>'Place rider on this Route'</strong> button to place a moving marker on the route.<br>
+    Once you're done with that, you can create another route and place another moving marker on it in a similar fashion.
+    &nbsp;
+  </div>
+   <label class="label"><strong>Origin :</strong></label><input type="text" id="routeOrigin">
+   <label class="label"><strong>Destination :</strong></label><input type="text" id="routeDestination">
   <button id="getRoute">Find best route</button>
   <button id="getPolylines">Place rider on this Route</button>
   <br>
 </div>
-  <div id="map"></div>
+  <div class="container" id="map"></div>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8UrM7xaD2GSWDsAs3gaMrQCBDVHlnceQ&callback=initMap" async defer></script>
   <script src="./js/mymaps.js" async defer></script>
 </body>

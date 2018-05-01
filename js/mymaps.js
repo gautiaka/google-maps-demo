@@ -42,6 +42,8 @@ function initMap() {
     setOriginDest(map, directionsService, directionsDisplay);
   }
   var onClickLinesHandler = function() {
+
+          document.getElementById("loader").style.display = "block";
     generatePolyLines(map, directionResponse);
   }
   document.getElementById('getRoute').addEventListener('click', onClickRoutesHandler);
@@ -142,6 +144,7 @@ google.maps.event.addListener(line, 'click', function(evt) {
 })
   map.fitBounds(bounds);
 
+            document.getElementById("loader").style.display = "none";
   animateCircle(line);
 
 }

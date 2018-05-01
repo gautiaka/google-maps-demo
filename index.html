@@ -12,7 +12,7 @@
 <body>
   <div style="display:none;" id="loader"></div>
   <div class="container">
-  <h3>Please enter origin and destination</h3>
+  <div class="page-header custom-header"><h1>Please enter origin and destination</h1></div>
   <div  class="label">You can put markers to define waypoints in between and then click the <kbd>Find best route</kbd> button <br>
     to get the best route from origin to the destination via these waypoints. You can also click to hold and then drag to alter the route.<br>
     Once you're done, press <kbd>Place rider on this Route</kbd> button to place a moving marker on the route.<br>
@@ -27,8 +27,8 @@
       <input type="text" class="form-control"  id="routeDestination"  placeholder="Enter end location e.g. Kalyani nagar"></div>
 
 
-   <button class="btn btn-default" id="getRoute">Find best route</button>
-   <button class="btn btn-default"  id="getPolylines">Place rider on this Route</button>
+   <button class="btn btn-default custom-button" id="getRoute">Find best route</button>
+   <button class="btn btn-default custom-button"  id="getPolylines">Place rider on this Route</button>
 </div>
 </div>
   <div class="container" id="map"></div>

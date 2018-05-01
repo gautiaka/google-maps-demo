@@ -35,6 +35,10 @@ function initMap() {
   });
 
   var onClickRoutesHandler = function() {
+
+      document.getElementById("loader").style.display = "block";
+
+            document.getElementById("map").style.display = "none";
     setOriginDest(map, directionsService, directionsDisplay);
   }
   var onClickLinesHandler = function() {
@@ -79,9 +83,12 @@ function calculateAndDisplayRoute(myOrigin, myDestination, map, directionsServic
     travelMode: 'DRIVING'
   }, function(response, status) {
     if (status === 'OK') {
+      document.getElementById("loader").style.display = "none";
       directionsDisplay.setDirections(response);
       //document.getElementById("getRoute").disabled = true;
       directionResponse = response;
+
+                  document.getElementById("map").style.display = "block";
     } else {
       window.alert('Directions request failed due to ' + status);
     }

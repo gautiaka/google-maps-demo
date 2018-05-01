@@ -18,24 +18,17 @@
     Once you're done with that, you can create another route and place another moving marker on it in a similar fashion.
     &nbsp;
   </div>
-  <form>
-   <div class="form-group">
-   <div class="form-group">
-  <br>
-</form>
-<form action="/action_page.php">
     <div class="form-group">
       <label for="routeOrigin" class="label"><strong>Origin :</strong></label>
       <input type="text" class="form-control"  id="routeOrigin"  placeholder="Enter start location"></div>
-    </div>
     <div class="form-group">
       <label for="routeDestination" class="label"><strong>Destination :</strong></label>
       <input type="text" class="form-control"  id="routeDestination"  placeholder="Enter end location"></div>
-    </div>
 
-   <button class="btn btn-default" type="submit" id="getRoute">Find best route</button>
-   <button class="btn btn-default" type="button" id="getPolylines">Place rider on this Route</button>
-    </form>
+
+   <button class="btn btn-default" id="getRoute">Find best route</button>
+   <button class="btn btn-default"  id="getPolylines">Place rider on this Route</button>
+</div>
 </div>
   <div class="container" id="map"></div>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8UrM7xaD2GSWDsAs3gaMrQCBDVHlnceQ&callback=initMap" async defer></script>

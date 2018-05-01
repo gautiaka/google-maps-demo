@@ -147,7 +147,7 @@ function animateCircle(line) {
     var icons = line.get('icons');
     icons[0].offset = (count / 2) + '%';
     line.set('icons', icons);
-  }, 1000);
+  }, 100);
 }
 
 function setOriginDest(map, directionsService, directionsDisplay) {

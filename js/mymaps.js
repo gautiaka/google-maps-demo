@@ -142,12 +142,12 @@ google.maps.event.addListener(line, 'click', function(evt) {
 function animateCircle(line) {
   var count = 0;
   window.setInterval(function() {
-    count = (count + 1) % 200;
+    count = (count + 1) % 20;
 
     var icons = line.get('icons');
     icons[0].offset = (count / 2) + '%';
     line.set('icons', icons);
-  }, 100);
+  }, 1000);
 }
 
 function setOriginDest(map, directionsService, directionsDisplay) {

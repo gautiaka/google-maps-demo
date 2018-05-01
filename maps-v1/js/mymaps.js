@@ -9,7 +9,7 @@ var markers = [];
 function initMap() {
   geocoder = new google.maps.Geocoder();
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 10,
+    zoom: 13,
     center: {
       lat: 18.5204,
       lng: 73.8567
@@ -18,6 +18,7 @@ function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer({
     draggable: true,
+     suppressMarkers: true,
     map: map
   });
 
@@ -79,7 +80,7 @@ function calculateAndDisplayRoute(myOrigin, myDestination, map, directionsServic
   }, function(response, status) {
     if (status === 'OK') {
       directionsDisplay.setDirections(response);
-      document.getElementById("getRoute").disabled = true;
+      //document.getElementById("getRoute").disabled = true;
       directionResponse = response;
     } else {
       window.alert('Directions request failed due to ' + status);
@@ -126,6 +127,12 @@ function generatePolyLines(map, response) {
   }
 
   line.setMap(map);
+  // route click listeners, different one on each step
+google.maps.event.addListener(line, 'click', function(evt) {
+  infowindow.setContent("you clicked on the route<br>" + evt.latLng.toUrlValue(6));
+  infowindow.setPosition(evt.latLng);
+  infowindow.open(map);
+})
   map.fitBounds(bounds);
 
   animateCircle(line);

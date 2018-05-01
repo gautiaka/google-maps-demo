@@ -72,3 +72,8 @@ body {
   from{ bottom:-100px; opacity:0 }
   to{ bottom:0; opacity:1 }
 }
+@media (min-width: 120px) and (max-width: 480px) {
+  .custom-button {
+      margin-bottom: 20px;
+        }
+}
